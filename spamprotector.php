@@ -11,13 +11,10 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
- * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
- *
+ * 
+ * Modified by John Thomson for release with JOT Web UK Modules.
+ * 
+ *  
  *  @author    Hennes Hervé <contact@h-hennes.fr>
  *  @copyright 2013-2018 Hennes Hervé
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
@@ -34,17 +31,17 @@ class EiCaptcha extends Module
 
     public function __construct()
     {
-        $this->author = 'hhennes';
-        $this->name = 'eicaptcha';
+        $this->author = 'JOT Web';
+        $this->name = 'spamprotector';
         $this->tab = 'front_office_features';
-        $this->version = '0.4.14';
+        $this->version = '0.5.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->l('Ei Captcha');
-        $this->description = $this->l('Add a captcha to your website form');
+        $this->displayName = $this->l('Spam Protector');
+        $this->description = $this->l('Add reCAPTCHA to your website. Based on EiCaptcha module.'); // <!--for specific IP ranges-->
 
         if ($this->active && (!Configuration::get('CAPTCHA_PUBLIC_KEY') || !Configuration::get('CAPTCHA_PRIVATE_KEY'))) {
             $this->warning = $this->l('Captcha Module need to be configurated');
@@ -131,7 +128,7 @@ class EiCaptcha extends Module
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('Eicaptcha Configuration'),
+                    'title' => $this->l('Spam Protector Configuration'),
                     'icon' => 'icon-cogs'
                 ),
                 'tabs' => array(
@@ -233,8 +230,8 @@ class EiCaptcha extends Module
                        'type' => 'html',
                        'name' => 'advanced-warning',
                        'html_content' => '<div class="alert alert-warning">'
-                         .$this->l('Use with caution, invalid parameters may made the module not to works properly, check the blog article before (in french)')
-                        .': <a href="https://www.h-hennes.fr/blog/2018/02/23/eicaptcha-ajout-dune-configuration-avancees-des-selecteurs" target="_blank">https://www.h-hennes.fr/blog/2018/02/23/eicaptcha-ajout-dune-configuration-avancees-des-selecteurs</a></div>',
+                         .$this->l('Use with caution, invalid parameters may made the module not to works properly.')
+                        .'</div>',
                        'tab' => 'advanced' 
                     ),
                      array(
@@ -581,3 +578,6 @@ class EiCaptcha extends Module
         return $errorsHtml.' '.$successHtml.' '.$informations;
     }
 }
+
+//To get it working with the new name.
+class_alias('EiCaptcha', 'SpamProtector');
